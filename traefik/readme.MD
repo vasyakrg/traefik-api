@@ -94,7 +94,7 @@ services:
 
 ## Traefik API
 
-- Позволяет отдавать сертификаты в `traefik-api-client` или по запросу
+- Позволяет отдавать сертификаты в [traefik-api-client](../traefik-api-client/readme.MD) или по запросу
 - В `.env` в переменной `ADMIN_TOKEN` указываем наш стойкий токен
 
 ### Методы для работы с API:
