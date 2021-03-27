@@ -20,6 +20,13 @@ docker-compose up -d
 25 07 * *\1 * cd /srv/services/traefik/ && ./dumper.sh >> /var/log/traefik_api.log
 ```
 
+**Внимание!**, что бы правильно работал `dumper.sh` в системе должна быть установлена утилита `jq`
+
+```
+apt install jq - для Debian\Ubuntu
+brew install jq -  для MacOS
+```
+
 ## Внешняя защита
 
 - Так как сам сервис trafik доступен из вне, его так же логично закрыть хотя бы basic auth
