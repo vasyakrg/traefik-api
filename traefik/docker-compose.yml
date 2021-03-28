@@ -38,6 +38,7 @@ services:
   api:
     image: vasyakrg/traefik-api:latest
     container_name: traefik_api
+    restart: unless-stopped
     labels:
         - "traefik.enable=true"
         - "traefik.http.routers.traefik-api.entrypoints=https"
