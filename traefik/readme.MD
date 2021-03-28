@@ -34,14 +34,7 @@ brew install jq -  для MacOS
 
 ```
 - ./data/basic.auth:/basic.auth
-```
-и
-
-```
 - "traefik.http.middlewares.traefik-auth.basicAuth.usersFile=/basic.auth"
-```
-и
-```
 - "traefik.http.routers.traefik.middlewares=traefik-auth"
 ```
 
@@ -54,8 +47,8 @@ htpasswd -c data/basic.auth admin
 
 ## Докерные сервисы
 
-- запускаем нужный контейнер с правильно выставленными лейблами
-- контейнер должен быть в том числе подключен к сети webproxy
+- запускаем нужный контейнер с правильно выставленными `лейблами`
+- контейнер должен быть в том числе подключен к сети `webproxy`
 
 **Пример**:
 
