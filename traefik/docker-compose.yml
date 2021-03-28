@@ -28,11 +28,11 @@ services:
       # - "traefik.http.routers.traefik.middlewares=traefik-auth"
       - "traefik.http.services.traefik-traefik.loadbalancer.server.port=888"
       # - "traefik.http.middlewares.traefik-auth.basicAuth.usersFile=/basic.auth"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       # global redirect to https
       - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
       - "traefik.http.routers.http-catchall.entrypoints=http"
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
     networks:
       - webproxy
 
