@@ -24,7 +24,7 @@ services:
       - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.routers.traefik.tls.certresolver=letsEncrypt"
       - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+      # - "traefik.http.routers.traefik.middlewares=traefik-auth"
       - "traefik.http.services.traefik-traefik.loadbalancer.server.port=888"
       # - "traefik.http.middlewares.traefik-auth.basicAuth.usersFile=/basic.auth"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"

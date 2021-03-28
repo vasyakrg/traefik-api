@@ -40,6 +40,10 @@ brew install jq -  для MacOS
 ```
 - "traefik.http.middlewares.traefik-auth.basicAuth.usersFile=/basic.auth"
 ```
+и
+```
+- "traefik.http.routers.traefik.middlewares=traefik-auth"
+```
 
 в папку `data` сгенерим файлик `basic.auth` c логином и паролем
 
