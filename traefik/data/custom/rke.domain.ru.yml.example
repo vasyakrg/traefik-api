@@ -3,8 +3,8 @@ http:
     rke:
       entryPoints:
       - https
-      service: rke-service
       rule: Host(`rke.domain.ru`)
+      service: rke-service
       tls:
         certResolver: letsEncrypt
   services:
