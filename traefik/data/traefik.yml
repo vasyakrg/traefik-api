@@ -36,6 +36,12 @@ providers:
   file:
     directory: /custom
     watch: true
+  kubernetesIngress:
+    endpoint: "https://rke.domain.ru/k8s/clusters/c-xxxxx"
+    token: "" # Token from Rancher
+    ingressClass: "traefik-lb"
+    ingressEndpoint:
+      ip: "" # you external IP
 
 certificatesResolvers:
   letsEncrypt:
