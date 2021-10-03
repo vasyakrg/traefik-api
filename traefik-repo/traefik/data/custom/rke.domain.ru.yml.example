@@ -1,0 +1,32 @@
+http:
+  routers:
+    rke:
+      entryPoints:
+      - https
+      rule: Host(`rke.domain.ru`)
+      service: rke-service
+      tls:
+        certResolver: letsEncrypt
+  services:
+    rke-service:
+      loadBalancer:
+        servers:
+        - url: http://192.168.9.200
+        passHostHeader: true
+
+tcp:
+  routers:
+    rke-api:
+      entryPoints:
+        - k8s-api
+      rule: "HostSNI(`*`)"
+      service: rke-api-service
+      tls:
+        passthrough: true
+  services:
+    rke-api-service:
+      loadBalancer:
+        servers:
+          - address: 192.168.9.201:6443
+          - address: 192.168.9.202:6443
+          - address: 192.168.9.203:6443

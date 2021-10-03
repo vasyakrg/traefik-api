@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  dokuwiki:
+    image: bitnami/dokuwiki
+    ports:
+      - '8080:80'
+    environment:
+      - DOKUWIKI_USERNAME=admin
+      - DOKUWIKI_PASSWORD=admin
+      - DOKUWIKI_WIKI_NAME=amega-wiki
+    volumes:
+      - data:/bitnami'
+
+volumes:
+  data:

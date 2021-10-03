@@ -1,0 +1,42 @@
+cluster_name: k8s-stage
+name: k8s-stage
+# kubernetes_version: v1.19.9-rancher1-1
+
+enable_cluster_alerting: false
+enable_cluster_monitoring: false
+ignore_docker_version: true
+
+nodes:
+  - address: 192.168.1.10
+    hostname_override: node1
+    user: root
+    labels:
+      worker: yes
+      location: nsk
+    role: [controlplane, worker, etcd]
+
+services:
+  etcd:
+    snapshot: true
+    creation: 6h
+    retention: 30h
+  kube-controller:
+    extra_args:
+      terminated-pod-gc-threshold: 100
+  kubelet:
+    extra_args:
+      max-pods: 250
+      volume-plugin-dir: /usr/libexec/kubernetes/kubelet-plugins/volume/exec
+      # For prometheus
+      authorization-mode: Webhook
+      authentication-token-webhook: true
+    extra_binds:
+      - /usr/libexec/kubernetes/kubelet-plugins/volume/exec:/usr/libexec/kubernetes/kubelet-plugins/volume/exec
+  # kube-api:
+  #   extra_args:
+  #     feature-gates: "ServiceAccountIssuerDiscovery=false,RemoveSelfLink=false"
+
+ingress:
+  provider: nginx
+  options:
+    use-forwarded-headers: "true"

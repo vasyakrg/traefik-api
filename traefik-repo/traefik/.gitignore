@@ -1,0 +1,7 @@
+acme.json
+stdout.log
+certs/*
+api/logs/*
+/logs/*
+basic.auth
+.env

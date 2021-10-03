@@ -1,0 +1,54 @@
+global:
+  checkNewVersion: true
+
+# pilot:
+#   token: ""
+
+serversTransport:
+  insecureSkipVerify: true
+
+api:
+  dashboard: true
+
+entryPoints:
+  http:
+    address: ":80"
+  https:
+    address: ":443"
+#   k8s-api:
+#     address: ":6443"
+#   metrics:
+#     address: ":8082"
+
+# metrics:
+#   prometheus:
+#     entryPoint: metrics
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  # file:
+  #   directory: /custom
+  #   watch: true
+  # kubernetesIngress:
+  #   endpoint: "https://rke.domain.ru/k8s/clusters/c-xxxxx"
+  #   token: "" # Token from Rancher
+  #   ingressClass: "traefik-lb"
+  #   ingressEndpoint:
+  #     ip: "" # you external IP
+
+certificatesResolvers:
+  letsEncrypt:
+    acme:
+      email: vasyakrg@gmail.com
+      storage: acme.json
+      httpChallenge:
+        entryPoint: http
+  hetzner:
+    acme:
+      email: vasyakrg@gmail.com
+      storage: acme-hetzner.json
+      dnsChallenge:
+        provider: hetzner
+        delayBeforeCheck: 30

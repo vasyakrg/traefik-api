@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: test
+spec:
+  selector:
+    app: nginx
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 31080
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-endpoint
+  namespace: test
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: "http"
+    traefik.ingress.kubernetes.io/service.passhostheader: "true"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: nginx-endpoint
+  namespace: test
+subsets:
+- addresses:
+    - ip: 192.168.1.201
+  ports:
+    - port: 31080
+- addresses:
+    - ip: 192.168.1.202
+  ports:
+    - port: 31080
+- addresses:
+    - ip: 192.168.1.203
+  ports:
+    - port: 31080
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    baremetal-ingress: traefik-nsk
+  annotations:
+    kubernetes.io/ingress.class: traefik-lb
+    external-dns.alpha.kubernetes.io/hostname: lb.domain.ru
+    traefik.ingress.kubernetes.io/router.entrypoints: https
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsEncrypt
+  name: nginx-ingress
+  namespace: test
+spec:
+  rules:
+  - host: lb.domain.ru
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nginx-endpoint
+            port:
+              number: 80
+---
