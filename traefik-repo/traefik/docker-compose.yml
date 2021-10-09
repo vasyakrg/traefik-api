@@ -11,14 +11,14 @@ services:
       - 443:443
       # - 6443:6443
     environment:
-      - HETZNER_API_KEY: ${HETZNER_API_KEY}
+      HETZNER_API_KEY: ${HETZNER_API_KEY}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data/traefik.yml:/traefik.yml:ro
       - ./data/acme.json:/acme.json
       # - ./data/custom/:/custom/:ro
-      # - ./data/basic.auth:/basic.auth
+      - ./data/basic.auth:/basic.auth
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=https"
@@ -27,8 +27,8 @@ services:
       - "traefik.http.routers.traefik.tls.certresolver=letsEncrypt"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.services.traefik-traefik.loadbalancer.server.port=888"
-      # - "traefik.http.routers.traefik.middlewares=traefik-auth"
-      # - "traefik.http.middlewares.traefik-auth.basicAuth.usersFile=/basic.auth"
+      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+      - "traefik.http.middlewares.traefik-auth.basicAuth.usersFile=/basic.auth"
 
       # global redirect to https
       - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"

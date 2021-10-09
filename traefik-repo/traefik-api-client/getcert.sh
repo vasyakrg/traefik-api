@@ -40,7 +40,7 @@ esac
     mkdir $PATH_TO_COPY || exit 1
 }
 
-CERT=$(curl ${DEBUG_CURL} $API_SERVER -X POST -H "Authorization: Bearer $TOKEN" --form "domain=$DOMAIN" | jq -r '.data.chain')
+CERT=$(curl ${DEBUG_CURL} $API_SERVER -X POST -H "Authorization: Bearer $TOKEN" --form "domain=$DOMAIN" | jq -r '.data.crt')
 [[ ! $? -eq 0 ]] && exit 1
 echo -e $CERT > $CERT_NAME
 
