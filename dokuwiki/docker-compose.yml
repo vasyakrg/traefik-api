@@ -2,14 +2,30 @@ version: '3.7'
 services:
   dokuwiki:
     image: bitnami/dokuwiki
-    ports:
-      - '8080:80'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wiki.entrypoints=https"
+      - "traefik.http.routers.wiki.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.wiki.tls=true"
+      - "traefik.http.routers.wiki.tls.certresolver=letsEncrypt"
+      - "traefik.http.routers.wiki.service=wiki-service"
+      - "traefik.http.services.wiki-service.loadbalancer.server.port=8080"
     environment:
       - DOKUWIKI_USERNAME=admin
       - DOKUWIKI_PASSWORD=admin
       - DOKUWIKI_WIKI_NAME=amega-wiki
     volumes:
       - data:/bitnami'
+    networks:
+      - wikinet
+      - webproxy
 
 volumes:
   data:
+
+networks:
+  wikinet:
+    name: wikinet
+  webproxy:
+    name: webproxy
+    external: true

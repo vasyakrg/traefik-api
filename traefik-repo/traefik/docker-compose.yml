@@ -17,7 +17,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data/traefik.yml:/traefik.yml:ro
       - ./data/acme.json:/acme.json
-      # - ./data/custom/:/custom/:ro
+      - ./data/custom/:/custom/:ro
       - ./data/basic.auth:/basic.auth
     labels:
       - "traefik.enable=true"

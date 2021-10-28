@@ -3,7 +3,7 @@ http:
     s3-minio:
       entryPoints:
       - https
-      rule: Host(`s3.domain.ru`)
+      rule: Host(`s3.rmcert.ru`)
       service: s3-minio-service
       tls:
         certResolver: letsEncrypt
@@ -13,8 +13,7 @@ http:
         healthCheck:
           path: /minio/health/live
           scheme: http
+          interval: "10s"
+          timeout: "5s"
         servers:
           - url: http://192.168.1.3:9000
-          - url: http://192.168.1.4:9000
-          - url: http://192.168.1.5:9000
-          - url: http://192.168.1.6:9000
